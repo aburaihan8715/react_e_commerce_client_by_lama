@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { mobile } from '../responsive';
-import Navbar from '../components/Navbar';
-import Announcement from '../components/Announcement';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Footer from '../components/Footer';
 import { useSelector } from 'react-redux';
 import StripeCheckout from 'react-stripe-checkout';
 import { useEffect, useState } from 'react';
-import { userRequest } from '../requestMethods';
 import { useNavigate } from 'react-router-dom';
 
-const KEY = import.meta.env.VITE_REACT_APP_STRIPE;
+import { mobile } from '../responsive';
+import Navbar from '../components/Navbar';
+import Announcement from '../components/Announcement';
+import { userRequest } from '../requestMethods';
+
+const KEY = import.meta.env.VITE_REACT_APP_STRIPE_PK;
 
 const Container = styled.div``;
 
@@ -173,7 +174,7 @@ const CartPage = () => {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await userRequest.post('/checkout/payment', {
+        const res = await userRequest.post('stripe/checkout', {
           tokenId: stripeToken.id,
           amount: 500,
         });
@@ -252,10 +253,11 @@ const CartPage = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
+
             {/* STRIPE CHECKOUT */}
             <StripeCheckout
               name="Raihan Shop"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
+              image="https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=600"
               billingAddress
               shippingAddress
               description={`Your total is $${cart.total}`}
